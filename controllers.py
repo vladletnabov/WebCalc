@@ -1,10 +1,29 @@
 # -*- coding: utf-8 -*-
 from openerp import http
+import werkzeug
+from openerp.http import request
+#import os
 
 class WebCalc(http.Controller):
-    @http.route(['/webcalc/jsonrpc/'], type='json', auth='none', website=True)
-    def return_map(self, **post):
-        return {'x': 12345, 'y': 2222}
+    @http.route(['/webcalc/remoteaddr/'], type='json', auth='public', website=True)
+    def return_map(self):
+        '''For JSON you need restart odoo with - u module_name after all modify'''
+        remoteAddr = request.httprequest.environ['REMOTE_ADDR']
+        return {'remoteAddr': remoteAddr}
+
+    @http.route(['/web_calc/register_session'], type='json', auth='public', website=True)
+    def register_session(self, prevouseURL, currentURL):
+        '''For JSON you need restart odoo with - u module_name after all modify'''
+        # remoteAddr = request.httprequest.environ['REMOTE_ADDR']
+
+        return {'remoteAddr': '192.12.122.34'}
+
+    @http.route(['/web_calc/check_session'], type='json', auth='public', website=True)
+    def check_session(self, sessionID, prevouseURL, currentURL):
+        '''For JSON you need restart odoo with - u module_name after all modify'''
+        remoteAddr = request.httprequest.environ['REMOTE_ADDR']
+        return {'remoteAddr': '192.12.122.34'}
+
 #     @http.route('/web_calc/web_calc/', auth='public')
 #     def index(self, **kw):
 #         return "Hello, world"
